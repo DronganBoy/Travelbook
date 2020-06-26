@@ -15,26 +15,68 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="J4z-e3-SqR">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="cqN-pW-EEc">
+                                <rect key="frame" x="30" y="129" width="66" height="0.0"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" id="rnv-ME-Nqb"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="DIl-fL-acK">
+                                <rect key="frame" x="0.0" y="211" width="414" height="541"/>
                             </mapView>
+                            <textField opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Name" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="VgJ-cX-2IK">
+                                <rect key="frame" x="52" y="55" width="311" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <textField opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Comments" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="U1h-RA-nT6">
+                                <rect key="frame" x="52" y="112" width="311" height="34"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Q29-gP-oKR">
+                                <rect key="frame" x="52" y="798" width="311" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="8WK-KY-P9f"/>
+                                </constraints>
+                                <state key="normal" title="Save"/>
+                                <connections>
+                                    <action selector="saveButtonClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="Mk0-pf-C75"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="J4z-e3-SqR" secondAttribute="trailing" id="5fc-6N-wW5"/>
-                            <constraint firstItem="J4z-e3-SqR" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="DBp-BE-SwW"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="J4z-e3-SqR" secondAttribute="bottom" id="HtE-X8-QYQ"/>
-                            <constraint firstItem="J4z-e3-SqR" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="w91-va-frE"/>
+                            <constraint firstItem="cqN-pW-EEc" firstAttribute="centerY" secondItem="U1h-RA-nT6" secondAttribute="centerY" id="3L1-Nv-298"/>
+                            <constraint firstItem="U1h-RA-nT6" firstAttribute="baseline" secondItem="cqN-pW-EEc" secondAttribute="firstBaseline" id="3MB-eB-MIB"/>
+                            <constraint firstItem="DIl-fL-acK" firstAttribute="centerX" secondItem="Q29-gP-oKR" secondAttribute="centerX" id="CT9-1k-oMu"/>
+                            <constraint firstItem="cqN-pW-EEc" firstAttribute="top" secondItem="VgJ-cX-2IK" secondAttribute="bottom" constant="40" id="EX3-w8-gJa"/>
+                            <constraint firstItem="U1h-RA-nT6" firstAttribute="leading" secondItem="Q29-gP-oKR" secondAttribute="leading" id="Ez0-su-0jk"/>
+                            <constraint firstItem="VgJ-cX-2IK" firstAttribute="trailing" secondItem="U1h-RA-nT6" secondAttribute="trailing" id="Fzm-a1-fhN"/>
+                            <constraint firstItem="cqN-pW-EEc" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="10" id="MHV-VZ-ONI"/>
+                            <constraint firstItem="U1h-RA-nT6" firstAttribute="trailing" secondItem="Q29-gP-oKR" secondAttribute="trailing" id="QGf-hC-6GL"/>
+                            <constraint firstItem="VgJ-cX-2IK" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="11" id="Vci-4t-bh6"/>
+                            <constraint firstItem="DIl-fL-acK" firstAttribute="top" secondItem="cqN-pW-EEc" secondAttribute="bottom" constant="82" id="c2n-9w-u5B"/>
+                            <constraint firstItem="VgJ-cX-2IK" firstAttribute="leading" secondItem="U1h-RA-nT6" secondAttribute="leading" id="knh-77-FaL"/>
+                            <constraint firstItem="VgJ-cX-2IK" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="52" id="mkP-eb-HzC"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="Q29-gP-oKR" secondAttribute="bottom" constant="14" id="rhl-52-VaY"/>
+                            <constraint firstItem="Q29-gP-oKR" firstAttribute="top" secondItem="DIl-fL-acK" secondAttribute="bottom" constant="46" id="s9h-cb-HCB"/>
+                            <constraint firstItem="VgJ-cX-2IK" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="tMr-iN-Slc"/>
+                            <constraint firstItem="DIl-fL-acK" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="ttg-SW-iwE"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="mapView" destination="J4z-e3-SqR" id="s11-Av-ypM"/>
+                        <outlet property="commentText" destination="U1h-RA-nT6" id="KMG-mS-7wH"/>
+                        <outlet property="mapView" destination="DIl-fL-acK" id="rFE-3v-ykU"/>
+                        <outlet property="nameText" destination="VgJ-cX-2IK" id="0Or-GE-ahM"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="132" y="139"/>
+            <point key="canvasLocation" x="155.07246376811597" y="110.49107142857143"/>
         </scene>
     </scenes>
 </document>
