@@ -11,6 +11,10 @@ import MapKit
 import CoreLocation
 import CoreData
 
+
+
+
+
 class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate  {
     //@IBOutlet weak var commentText: UITextField!
     @IBOutlet weak var commentText: UITextField!
@@ -24,6 +28,14 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
     var chosenLatitude = Double() // will be used when someone touches map for 3 seconds
     var chosenLongitude = Double()
     
+    var selectedTitle = ""
+    var selectedTitleID : UUID?
+    
+    var annotationTitle = ""
+    var annotationSubtitle = ""
+    var annotationLatitude = Double()
+    var annotationLongitude = Double()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -36,6 +48,63 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         let  gestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(chooseLocation(gestureRecognizer:)))// standard action with selecter being a objc func and identify the function to be called
         gestureRecognizer.minimumPressDuration = 3 // hold for 3 secs
         mapView.addGestureRecognizer(gestureRecognizer)
+        
+        if selectedTitle != "" {
+            //IF NOT EMPTY GO TO CoreData TO GET INFORMATION
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            let context = appDelegate.persistentContainer.viewContext
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Places")
+            let idString = selectedTitleID!.uuidString
+            fetchRequest.predicate = NSPredicate(format: "id = %@", idString)
+            fetchRequest.returnsObjectsAsFaults = false
+            //print(stringUUID)
+            do {
+                let results = try context.fetch(fetchRequest)
+                if results.count > 0 {
+                   
+                    for result in results as! [NSManagedObject] {
+                        
+                        if let title = result.value(forKey: "title") as? String {
+                            annotationTitle = title
+                            
+                            if let subTitle = result.value(forKey: "subtitle") as? String {
+                                annotationSubtitle = subTitle
+                            
+                                if let latitude = result.value(forKey: "latitude") as? Double {
+                                    annotationLatitude = latitude
+                                
+                                    if let longitude = result.value(forKey: "longitude") as? Double {
+                                        annotationLongitude = longitude
+                                        
+                                        let annotation = MKPointAnnotation()
+                                        annotation.title = annotationTitle
+                                        annotation.subtitle = annotationSubtitle
+                                        let coordinate = CLLocationCoordinate2D(latitude: annotationLatitude, longitude: annotationLongitude)
+                                        annotation.coordinate = coordinate
+                                        
+                                        mapView.addAnnotation(annotation)
+                                        nameText.text = annotationTitle
+                                        commentText.text = annotationSubtitle
+                                        
+                                    }
+                                
+                                }
+                            
+                            
+                            }
+                            
+                        }
+                        
+                        
+                    }
+                    
+                }
+            } catch {
+                print("error")
+            }
+        } else {
+            // DO NOTHING SINCE USER IS LIKELY TO BE AddING New Data
+        }
     }
     
     @objc func chooseLocation(gestureRecognizer: UILongPressGestureRecognizer) {// Needs GestureRecogniser here to work upon
