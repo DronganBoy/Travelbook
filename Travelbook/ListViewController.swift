@@ -23,7 +23,7 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.viewDidLoad()
         
         navigationController?.navigationBar.topItem?.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.add, target: self, action: #selector(addButtonClicked))
-
+        navigationController?.navigationBar.topItem?.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonItem.SystemItem.edit, target: self, action: #selector(removeButtonClicked))  //added 3/7
         tableView.delegate = self
         tableView.dataSource = self
    
@@ -31,7 +31,14 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     }
     
-    func getData () {
+    override func viewWillAppear(_ animated: Bool) { // observe the newPlace post from VC and trigger get data function
+        NotificationCenter.default.addObserver(self, selector: #selector(getData), name: NSNotification.Name("newPlace"), object: nil)
+        
+    }
+    
+    
+    
+   @objc func getData () {
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let context = appDelegate.persistentContainer.viewContext
         let request = NSFetchRequest<NSFetchRequestResult>(entityName: "Places")
@@ -47,9 +54,9 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
                     self.titleArray.append(title)
                     }
                 
-                if let id = result.value(forKey: "id") as? UUID {
-                    self.idArray.append(id)
-                }
+                    if let id = result.value(forKey: "id") as? UUID {
+                        self.idArray.append(id)
+                    }
                     tableView.reloadData()
             }
             
@@ -94,4 +101,68 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
         }
     }
     
+    // added 3/7
+    @objc func removeButtonClicked () {
+       // Function not used
+        
+    }
+        
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    
+        if editingStyle == .delete {
+            let appDelegate = UIApplication.shared.delegate as! AppDelegate
+            let context = appDelegate.persistentContainer.viewContext
+            
+            let fetchRequest = NSFetchRequest<NSFetchRequestResult>(entityName: "Places")
+            
+            let idString = idArray[indexPath.row].uuidString
+            
+            fetchRequest.predicate = NSPredicate(format: "id = %@", idString)
+            
+            fetchRequest.returnsObjectsAsFaults = false
+            do {
+            let results = try context.fetch(fetchRequest)
+                if results.count > 0 {
+                    
+                    for result in results as! [NSManagedObject] {
+                        
+                        if let id = result.value(forKey: "id") as? UUID {
+                            
+                            if id == idArray[indexPath.row] {
+                                context.delete(result)
+                                titleArray.remove(at: indexPath.row)
+                                idArray.remove(at: indexPath.row)
+                                self.tableView.reloadData()
+                                
+                                do {
+                                    try context.save()
+                                    
+                                } catch {
+                                    print("There was an error")
+                                }
+                                
+                                break
+                                
+                            }
+                            
+                        }
+                        
+                        
+                    }
+                    
+                    
+                }
+            } catch {
+                print("error")
+            }
+            
+           // landmarkNames.remove(at: indexPath.row)
+            //titleArray.remove(at: indexPath.row)
+            //idArray.remove(at: indexPath.row)
+            //landmarkImages.remove(at: indexPath.row)
+            //tableView.deleteRows(at: [indexPath], with: UITableView.RowAnimation.fade)
+        
+        }
+    }
+   
 }
