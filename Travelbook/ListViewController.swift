@@ -104,6 +104,7 @@ class ListViewController: UIViewController, UITableViewDelegate, UITableViewData
     // added 3/7
     @objc func removeButtonClicked () {
        // Function not used
+        // Found a better way
         
     }
         
